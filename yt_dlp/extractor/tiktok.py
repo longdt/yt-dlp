@@ -1018,7 +1018,7 @@ class DouyinIE(TikTokBaseIE):
         render_data = self._search_json(
             r'<script [^>]*\bid=[\'"]RENDER_DATA[\'"][^>]*>', webpage, 'render data', video_id,
             contains_pattern=r'%7B(?s:.+)%7D', fatal=False, transform_source=compat_urllib_parse_unquote)
-        if not render_data_json:
+        if not render_data:
             # TODO: Run verification challenge code to generate signature cookies
             cookies = self._get_cookies(self._WEBPAGE_HOST)
             expected = not cookies.get('s_v_web_id') or not cookies.get('ttwid')
