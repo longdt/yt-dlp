@@ -1015,9 +1015,9 @@ class DouyinIE(TikTokBaseIE):
             self.to_screen(f'{e}; trying with webpage')
 
         webpage = self._download_webpage(url, video_id)
-        render_data_json = self._search_regex(
-            r'<script [^>]*\bid=[\'"]RENDER_DATA[\'"][^>]*>(%7B.+%7D)</script>',
-            webpage, 'render data', default=None)
+        render_data = self._search_json(
+            r'<script [^>]*\bid=[\'"]RENDER_DATA[\'"][^>]*>', webpage, 'render data', video_id,
+            contains_pattern=r'%7B(?s:.+)%7D', fatal=False, transform_source=compat_urllib_parse_unquote)
         if not render_data_json:
             # TODO: Run verification challenge code to generate signature cookies
             cookies = self._get_cookies(self._WEBPAGE_HOST)
@@ -1025,8 +1025,6 @@ class DouyinIE(TikTokBaseIE):
             raise ExtractorError(
                 'Fresh cookies (not necessarily logged in) are needed', expected=expected)
 
-        render_data = self._parse_json(
-            render_data_json, video_id, transform_source=compat_urllib_parse_unquote)
         return self._parse_aweme_video_web(get_first(render_data, ('aweme', 'detail')), url, video_id)
 
 
