@@ -1025,7 +1025,8 @@ class DouyinIE(TikTokBaseIE):
             raise ExtractorError(
                 'Fresh cookies (not necessarily logged in) are needed', expected=expected)
 
-        return self._parse_aweme_video_web(get_first(render_data, ('aweme', 'detail')), url, video_id)
+        # return self._parse_aweme_video_web(get_first(render_data, ('aweme', 'detail')), url, video_id)
+        return self._extract_aweme_app(get_first(render_data, 'aweme_id'))
 
 
 class TikTokVMIE(InfoExtractor):
